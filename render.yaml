@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: hirekarma-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./hirekarma.db
+      - key: PYTHON_VERSION
+        value: 3.11.9
+    disk:
+      name: hirekarma-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1
